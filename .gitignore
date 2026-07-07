@@ -27,3 +27,6 @@ npm-debug.log*
 # Env files
 .env.local
 .env.production.local
+
+# Docs
+PRD.md
