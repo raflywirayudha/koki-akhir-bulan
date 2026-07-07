@@ -1,9 +1,9 @@
 # 🍳 Koki Akhir Bulan
 
 <p align="center">
-  <img src="frontend/src/assets/logo.png" width="70">
+  <img src="frontend/src/assets/logo.png" width="90">
   &nbsp;&nbsp;
-  <img src="frontend/src/assets/title.png" height="35">
+  <img src="frontend/src/assets/title.png" height="45">
 </p>
 
 Asisten memasak berbasis AI — ubah sisa bahan dapur jadi resep lezat.
