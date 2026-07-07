@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-heading: 'Archivo Black', sans-serif;
+  --font-body: 'Space Grotesk', sans-serif;
+
+  --color-primary: #EA580C;
+  --color-primary-dark: #C2410C;
+  --color-primary-light: #FFEDD5;
+  --color-secondary: #F59E0B;
+  --color-secondary-light: #FEF3C7;
+  --color-accent: #10B981;
+  --color-accent-light: #D1FAE5;
+  --color-background: #FFFBEB;
+  --color-surface: #FFFFFF;
+  --color-foreground: #1C1917;
+  --color-muted: #F8F2F0;
+  --color-border: #E5E0DC;
+  --color-destructive: #DC2626;
+  --color-ring: #EA580C;
+}
+
+.theme-warm {
+  --color-primary: #EA580C;
+  --color-primary-dark: #C2410C;
+  --color-primary-light: #FFEDD5;
+  --color-secondary: #F59E0B;
+  --color-secondary-light: #FEF3C7;
+  --color-accent: #10B981;
+  --color-accent-light: #D1FAE5;
+  --color-background: #FFFBEB;
+  --color-ring: #EA580C;
+}
+
+.theme-garden {
+  --color-primary: #16A34A;
+  --color-primary-dark: #15803D;
+  --color-primary-light: #DCFCE7;
+  --color-secondary: #EAB308;
+  --color-accent: #F59E0B;
+  --color-accent-light: #FEF3C7;
+  --color-background: #F7FEE7;
+  --color-ring: #16A34A;
+}
+
+.theme-retro {
+  --color-primary: #E11D48;
+  --color-primary-dark: #BE123C;
+  --color-primary-light: #FFE4E6;
+  --color-secondary: #FBBF24;
+  --color-accent: #0D9488;
+  --color-accent-light: #CCFBF1;
+  --color-background: #FFF5F5;
+  --color-ring: #E11D48;
+}
+
+@layer utilities {
+  .bg-grid-dot {
+    background-image: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--color-primary) 15%, transparent) 1.5px,
+      transparent 1.5px
+    );
+    background-size: 40px 40px;
+  }
+}
+
+
