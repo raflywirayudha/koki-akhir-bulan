@@ -32,7 +32,7 @@ Tulis atau foto bahan yang ada, dapatkan resep instan.
 | ![](screenshots/6.%20Screenshot.png) | ![](screenshots/7.%20Screenshot.png) |
 
 ### Mobile
-![](screenshots/9.Screenshot%20Mobile.png)
+![](screenshots/9.%20Screenshot%20Mobile.png)
 
 ## Cara Menjalankan
 
