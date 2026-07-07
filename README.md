@@ -20,9 +20,19 @@ Tulis atau foto bahan yang ada, dapatkan resep instan.
 
 ## Screenshots
 
-| Landing | Chat | Mobile |
+### Beranda
+| Tema Warm | Tema Garden | Tema Retro |
 |---|---|---|
-| ![Landing](screenshots/1.%20Screenshot.png) | ![Chat](screenshots/2.%20Screenshot.png) | ![Mobile](screenshots/10.Screenshot%20Mobile.png) |
+| ![](screenshots/1.%20Screenshot.png) | ![](screenshots/2.%20Screenshot.png) | ![](screenshots/3.%20Screenshot.png) |
+
+### Chat
+| | |
+|---|---|
+| ![](screenshots/4.%20Screenshot.png) | ![](screenshots/5.%20Screenshot.png) |
+| ![](screenshots/6.%20Screenshot.png) | ![](screenshots/7.%20Screenshot.png) |
+
+### Mobile
+![](screenshots/9.Screenshot%20Mobile.png)
 
 ## Cara Menjalankan
 
