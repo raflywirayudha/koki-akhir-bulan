@@ -75,24 +75,50 @@ app.post("/generate-from-document", upload.single("file"), async (req, res) => {
 
 app.post("/api/generate-recipe", upload.single("image"), async (req, res) => {
   try {
-    const { ingredients, preferences } = req.body;
+    const { ingredients, preferences, history } = req.body;
 
-    let prompt = `Saya punya bahan-bahan ini: ${ingredients}. Buatkan resep masakan lezat dari bahan tersebut.`;
+    let historyMessages = [];
+    try {
+      if (history) {
+        const parsed = JSON.parse(history);
+        if (Array.isArray(parsed)) {
+          historyMessages = parsed;
+        }
+      }
+    } catch {}
+
+    let prompt;
+    if (historyMessages.length === 0) {
+      prompt = `Saya punya bahan-bahan ini: ${ingredients}. Buatkan resep masakan lezat dari bahan tersebut.`;
+    } else {
+      prompt = ingredients;
+    }
     if (preferences) {
       prompt += ` Preferensi: ${preferences}.`;
     }
 
-    const contents = [{ text: prompt, type: "text" }];
-
-    if (req.file) {
-      const fileBase64 = req.file.buffer.toString("base64");
-      contents.push({
-        inlineData: {
-          data: fileBase64,
-          mimeType: req.file.mimetype,
-        },
-      });
-    }
+    const contents = [
+      ...historyMessages.map((msg) => ({
+        role: msg.role === "model" ? "model" : "user",
+        parts: [{ text: msg.text }],
+      })),
+      {
+        role: "user",
+        parts: [
+          { text: prompt },
+          ...(req.file
+            ? [
+                {
+                  inlineData: {
+                    data: req.file.buffer.toString("base64"),
+                    mimeType: req.file.mimetype,
+                  },
+                },
+              ]
+            : []),
+        ],
+      },
+    ];
 
     const response = await ai.models.generateContent({
       model: model,
