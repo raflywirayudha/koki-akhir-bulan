@@ -30,3 +30,5 @@ npm-debug.log*
 
 # Docs
 PRD.md
+.tasks
+.tech-spec
