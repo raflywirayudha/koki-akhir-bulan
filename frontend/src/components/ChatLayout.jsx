@@ -22,7 +22,7 @@ export default function ChatLayout({ messages, loading, onRegenerate, hasLastIng
   return (
     <div
       ref={ref}
-      className="flex-1 overflow-y-auto px-4 py-4 space-y-3 scroll-smooth"
+      className="flex-1 overflow-y-auto scroll-smooth"
     >
         {messages.length === 0 && !loading && (
           <div className="h-full flex flex-col items-center justify-center text-foreground/40">
@@ -38,31 +38,33 @@ export default function ChatLayout({ messages, loading, onRegenerate, hasLastIng
           </div>
         )}
 
-        {messages.map((msg, i) => {
-          const isLastBot = i === lastBotIndex && msg.role === 'bot';
-          return (
-            <div key={i}>
-              <ChatBubble message={msg} />
-              {isLastBot && !loading && (
-                <div className="flex justify-start ml-10 mt-2">
-                  <button
-                    onClick={onRegenerate}
-                    disabled={!hasLastIngredients}
-                    className="inline-flex items-center gap-1.5 text-xs text-foreground/40 hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                  >
-                    <RotateCcw size={12} />
-                    Coba Resep Lain
-                  </button>
-                </div>
-              )}
-              {i < messages.length - 1 && messages[i + 1]?.role === 'user' && (
-                <hr className="border-border/40 my-4" />
-              )}
-            </div>
-          );
-        })}
+        <div className=" mx-auto px-4 py-4 space-y-3">
+          {messages.map((msg, i) => {
+            const isLastBot = i === lastBotIndex && msg.role === 'bot';
+            return (
+              <div key={i}>
+                <ChatBubble message={msg} />
+                {isLastBot && !loading && (
+                  <div className="flex justify-start ml-10 mt-2">
+                    <button
+                      onClick={onRegenerate}
+                      disabled={!hasLastIngredients}
+                      className="inline-flex items-center gap-1.5 text-xs text-foreground/40 hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    >
+                      <RotateCcw size={12} />
+                      Coba Resep Lain
+                    </button>
+                  </div>
+                )}
+                {i < messages.length - 1 && messages[i + 1]?.role === 'user' && (
+                  <hr className="border-border/40 my-4" />
+                )}
+              </div>
+            );
+          })}
 
-        {loading && <LoadingDots />}
+          {loading && <LoadingDots />}
+        </div>
       </div>
   );
 }

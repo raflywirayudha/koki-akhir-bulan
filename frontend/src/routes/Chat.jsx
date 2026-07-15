@@ -1,12 +1,11 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { Menu } from 'lucide-react';
 import useSessions from '../hooks/useSessions';
 import Sidebar from '../components/Sidebar';
 import ChatLayout from '../components/ChatLayout';
 import InputArea from '../components/InputArea';
 import SuggestionChips from '../components/SuggestionChips';
 
-export default function Chat() {
+export default function Chat({ sidebarOpen, onCloseSidebar }) {
   const {
     sessions, activeId, activeSession,
     setActiveId, addSession, deleteSession, deleteAllSessions, updateSession,
@@ -15,7 +14,6 @@ export default function Chat() {
   const [loading, setLoading] = useState(false);
   const [inputText, setInputText] = useState('');
   const [selectedChips, setSelectedChips] = useState(new Set());
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const messages = activeSession?.messages || [];
   const lastIngredients = activeSession?.lastIngredients || null;
@@ -75,7 +73,8 @@ export default function Chat() {
 
       const s = sessions.find((x) => x.id === currentId);
       if (s && s.title === 'Resep Baru') {
-        const title = userContent.split(',').slice(0, 2).join(', ').trim() || userContent.slice(0, 30);
+        const match = data.recipe.match(/^## (.+)$/m);
+        const title = match ? match[1].trim() : (userContent.split(',').slice(0, 2).join(', ').trim() || userContent.slice(0, 30));
         updateSession(currentId, { title });
       }
 
@@ -163,7 +162,7 @@ export default function Chat() {
   }, [addSession]);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 pt-4 pb-4 flex h-[calc(100vh-4rem)] gap-4">
+    <div className="w-full flex h-[calc(100vh-4rem)]">
       <Sidebar
         sessions={sessions}
         activeId={activeId}
@@ -172,18 +171,11 @@ export default function Chat() {
         onDelete={deleteSession}
         onDeleteAll={deleteAllSessions}
         open={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
+        onClose={onCloseSidebar}
       />
 
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden rounded-xl bg-white border-2 border-black shadow-[4px_4px_0_0_#000]">
-        <div className="flex items-center gap-2 px-4 pt-4">
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="md:hidden p-1.5 rounded-lg text-foreground/30 hover:text-foreground transition-colors -ml-1"
-            aria-label="Buka sidebar"
-          >
-            <Menu size={20} />
-          </button>
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden rounded-xl bg-white border-2 border-black shadow-[4px_4px_0_0_#000] m-4">
+        <div className="flex items-center gap-2 px-4 pt-4 pb-2 border-b-2 border-black">
           <div className="flex-1">
             <SuggestionChips
               selectedChips={selectedChips}

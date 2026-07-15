@@ -45,7 +45,9 @@ export default function useSessions() {
   const [activeId, setActiveId] = useState(() => sessions[0]?.id || null);
 
   const sessionsRef = useRef(sessions);
+  const activeIdRef = useRef(activeId);
   useEffect(() => { sessionsRef.current = sessions; }, [sessions]);
+  useEffect(() => { activeIdRef.current = activeId; }, [activeId]);
   useEffect(() => { saveSessions(sessions); }, [sessions]);
 
   const setActiveIdSafe = useCallback((id) => {
@@ -55,8 +57,12 @@ export default function useSessions() {
   }, []);
 
   const addSession = useCallback((title) => {
+    const current = sessionsRef.current.find((s) => s.id === activeIdRef.current);
+    if (current && current.messages.length === 0) {
+      return current.id;
+    }
     const session = createSession(title);
-    setSessions((prev) => [...prev, session]);
+    setSessions((prev) => [session, ...prev]);
     setActiveId(session.id);
     return session.id;
   }, []);

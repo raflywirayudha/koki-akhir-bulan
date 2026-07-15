@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { PanelLeftOpen, PanelLeftClose, Menu, X } from 'lucide-react';
 import logoImg from '../assets/logo.png';
 import titleImg from '../assets/title.png';
 import useTheme from '../hooks/useTheme';
@@ -16,16 +16,31 @@ const themes = [
   { id: 'retro', color: 'bg-[#E11D48]' },
 ];
 
-export default function Navbar() {
+export default function Navbar({ sidebarOpen, onToggleSidebar }) {
   const [open, setOpen] = useState(false);
   const [theme, setTheme] = useTheme();
+  const location = useLocation();
+  const isChat = location.pathname === '/chat';
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b-2 border-black">
-      <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div className="w-full px-4 h-16 flex items-center gap-2">
+        {isChat && (
+          <>
+            <button
+              onClick={onToggleSidebar}
+              className="p-1.5 rounded-lg text-foreground/30 hover:text-foreground transition-colors shrink-0"
+              aria-label={sidebarOpen ? 'Tutup sidebar' : 'Buka sidebar'}
+            >
+              {sidebarOpen ? <PanelLeftClose size={22} /> : <PanelLeftOpen size={22} />}
+            </button>
+            <div className={`${sidebarOpen ? 'w-52' : 'w-0'} transition-all duration-200 shrink-0`} />
+          </>
+        )}
+
         <Link
           to="/"
-          className="flex items-center gap-0 hover:opacity-80 transition-opacity"
+          className="flex items-center gap-0 hover:opacity-80 transition-opacity mr-auto"
         >
           <img src={logoImg} alt="" className="h-12 w-auto" />
           <img src={titleImg} alt="Koki Akhir Bulan" className="h-10 w-auto" />

@@ -77,7 +77,7 @@ export default function InputArea({
         </div>
       )}
 
-      <div className="flex items-end gap-2 p-4 pt-2">
+      <div className="flex items-center gap-2 p-4">
         <div className="flex-1 relative">
           <textarea
             ref={textareaRef}
@@ -89,13 +89,13 @@ export default function InputArea({
             onKeyDown={handleKeyDown}
             placeholder="Tulis bahan yang ada..."
             rows={1}
-            className="w-full resize-none rounded-xl border-2 border-black bg-white text-foreground px-4 py-3 pr-12 text-sm placeholder:text-foreground/40 focus:outline-none focus:ring-2 focus:ring-ring shadow-[inset_2px_2px_0_0_#000] transition-shadow"
+            className="w-full resize-none overflow-y-hidden rounded-xl border-2 border-black bg-white text-foreground px-4 py-3 pr-12 text-sm placeholder:text-foreground/40 focus:outline-none focus:ring-2 focus:ring-ring shadow-[inset_2px_2px_0_0_#000] transition-shadow"
           />
           <button
             type="button"
             onClick={() => fileRef.current?.click()}
             disabled={loading}
-            className="absolute right-2 bottom-2.5 text-foreground/40 hover:text-primary disabled:opacity-30 transition-colors"
+            className="absolute right-2 bottom-5 text-foreground/40 hover:text-primary disabled:opacity-30 transition-colors"
             aria-label="Upload foto bahan"
           >
             <ImagePlus size={20} />

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Landing from './routes/Landing';
@@ -12,14 +13,27 @@ function BackgroundDecor() {
 }
 
 export default function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <div className="min-h-screen text-foreground font-body transition-colors duration-200">
       <div className="fixed inset-0 bg-background -z-20" />
       <BackgroundDecor />
-      <Navbar />
+      <Navbar
+        sidebarOpen={sidebarOpen}
+        onToggleSidebar={() => setSidebarOpen((v) => !v)}
+      />
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/chat" element={<Chat />} />
+        <Route
+          path="/chat"
+          element={
+            <Chat
+              sidebarOpen={sidebarOpen}
+              onCloseSidebar={() => setSidebarOpen(false)}
+            />
+          }
+        />
       </Routes>
     </div>
   );
