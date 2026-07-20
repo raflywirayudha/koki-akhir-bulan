@@ -1,25 +1,87 @@
 import { useState } from 'react';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2, X, PanelLeftClose, PanelLeftOpen, Search, Heart, MessageCircle } from 'lucide-react';
 
-function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onDeleteAll, onClose }) {
+function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onDeleteAll, onClose, onToggle, favorites, onSelectFavorite, preferences, onPreferencesChange }) {
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [showDeleteAll, setShowDeleteAll] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showFavorites, setShowFavorites] = useState(false);
   const nonEmpty = sessions.filter((s) => s.messages.length > 0);
+  const filtered = searchQuery
+    ? nonEmpty.filter((s) => s.title.toLowerCase().includes(searchQuery.toLowerCase()))
+    : nonEmpty;
 
   return (
     <>
-      <div className="px-3 pt-3">
+      <div className="px-3 pt-3 flex items-center gap-2">
+        <button
+          onClick={onClose}
+          className="hidden md:block p-2 rounded-xl border-2 border-black text-foreground/40 hover:text-foreground hover:bg-muted transition-all shrink-0"
+          aria-label="Tutup sidebar"
+        >
+          <PanelLeftClose size={18} />
+        </button>
         <button
           onClick={onNewChat}
-          className="w-full flex items-center gap-2 px-3.5 py-2.5 rounded-xl border-2 border-black bg-primary text-white font-bold text-sm shadow-[2px_2px_0_0_#000] hover:shadow-[3px_3px_0_0_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-200"
+          className="flex-1 flex items-center gap-2 px-3.5 py-2.5 rounded-xl border-2 border-black bg-primary text-white font-bold text-sm shadow-[2px_2px_0_0_#000] hover:shadow-[3px_3px_0_0_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-200"
         >
           <Plus size={16} />
           Percakapan baru
         </button>
+        <button
+          onClick={onClose}
+          className="md:hidden p-2 rounded-xl border-2 border-black text-foreground/40 hover:text-foreground hover:bg-muted transition-all shrink-0"
+          aria-label="Tutup sidebar"
+        >
+          <X size={18} />
+        </button>
       </div>
 
+      <div className="px-3 pt-2">
+        <div className="relative">
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground/30" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Cari percakapan..."
+            className="w-full pl-8 pr-3 py-2 rounded-xl border-2 border-black/30 text-xs text-foreground placeholder:text-foreground/30 focus:outline-none focus:border-primary/50 bg-white"
+          />
+        </div>
+      </div>
+
+      {favorites && favorites.length > 0 && (
+        <div className="px-3 pt-2">
+          <button
+            onClick={() => setShowFavorites(!showFavorites)}
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-foreground/50 hover:text-primary hover:bg-primary-light/10 transition-all"
+          >
+            <Heart size={14} className={showFavorites ? 'text-red-500' : ''} />
+            Resep Tersimpan ({favorites.length})
+          </button>
+          {showFavorites && (
+            <div className="mt-1 space-y-1">
+              {favorites.map((fav) => (
+                <button
+                  key={fav.id}
+                  onClick={() => onSelectFavorite?.(fav)}
+                  className="w-full flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs text-foreground/60 hover:text-foreground hover:bg-muted transition-all text-left"
+                >
+                  <MessageCircle size={12} className="shrink-0" />
+                  <span className="truncate">{fav.title || 'Resep'}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       <div className="flex-1 overflow-y-auto px-3 py-3 space-y-1">
-        {nonEmpty.map((s) => {
+        {filtered.length === 0 ? (
+          <p className="text-xs text-foreground/30 text-center py-4">
+            {searchQuery ? 'Tidak ada hasil' : 'Belum ada percakapan'}
+          </p>
+        ) : filtered.map((s) => {
           const active = s.id === activeId;
           return (
             <div
@@ -63,6 +125,25 @@ function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onD
           </button>
         </div>
       )}
+
+      <div className="px-3 pb-3">
+        <div className="border-t-2 border-black/10 pt-3">
+          <p className="text-xs font-bold text-foreground/40 mb-1.5 px-1">Preferensi Diet</p>
+          <select
+            value={preferences || ''}
+            onChange={(e) => onPreferencesChange?.(e.target.value)}
+            className="w-full px-3 py-2 rounded-xl border-2 border-black/30 text-xs text-foreground bg-white focus:outline-none focus:border-primary/50"
+          >
+            <option value="">Tidak ada preferensi</option>
+            <option value="Vegetarian">🥦 Vegetarian</option>
+            <option value="Vegan">🌱 Vegan</option>
+            <option value="Bebas gluten">🌾 Bebas Gluten</option>
+            <option value="Bebas susu">🥛 Bebas Susu</option>
+            <option value="Low carb">🥩 Low Carb</option>
+            <option value="Hemat">💰 Super Hemat</option>
+          </select>
+        </div>
+      </div>
 
       {deleteTarget && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
@@ -126,7 +207,7 @@ function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onD
 }
 
 export default function Sidebar(props) {
-  const { open, onClose } = props;
+  const { open, onClose, onToggle } = props;
 
   return (
     <>
@@ -158,7 +239,14 @@ export default function Sidebar(props) {
             <SidebarContent {...props} />
           </div>
         ) : (
-          <div className="w-12 min-w-12 h-full flex flex-col items-center pt-3">
+          <div className="w-12 min-w-12 h-full flex flex-col items-center gap-2 pt-3">
+            <button
+              onClick={onToggle}
+              className="p-2 rounded-xl border-2 border-black text-foreground/40 hover:text-foreground hover:bg-muted transition-all"
+              aria-label="Buka sidebar"
+            >
+              <PanelLeftOpen size={16} />
+            </button>
             <button
               onClick={props.onNewChat}
               className="p-2 rounded-xl border-2 border-black bg-primary text-white shadow-[2px_2px_0_0_#000] hover:shadow-[3px_3px_0_0_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all"

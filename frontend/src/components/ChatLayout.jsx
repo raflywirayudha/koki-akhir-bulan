@@ -2,8 +2,9 @@ import { useEffect, useRef } from 'react';
 import { MessageCircle, RotateCcw } from 'lucide-react';
 import ChatBubble from './ChatBubble';
 import LoadingDots from './LoadingDots';
+import FollowUpChips from './FollowUpChips';
 
-export default function ChatLayout({ messages, loading, onRegenerate, hasLastIngredients }) {
+export default function ChatLayout({ messages, loading, onRegenerate, hasLastIngredients, onFollowUp, recipeIdMap, isFaved, onSave, onShare, onGroceryList }) {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -43,17 +44,29 @@ export default function ChatLayout({ messages, loading, onRegenerate, hasLastIng
             const isLastBot = i === lastBotIndex && msg.role === 'bot';
             return (
               <div key={i}>
-                <ChatBubble message={msg} />
+                <ChatBubble
+                  message={msg}
+                  recipeId={recipeIdMap?.[i]}
+                  isFaved={isFaved?.(recipeIdMap?.[i])}
+                  onSave={onSave}
+                  onShare={onShare}
+                  onGroceryList={onGroceryList}
+                />
                 {isLastBot && !loading && (
-                  <div className="flex justify-start ml-10 mt-2">
-                    <button
-                      onClick={onRegenerate}
-                      disabled={!hasLastIngredients}
-                      className="inline-flex items-center gap-1.5 text-xs text-foreground/40 hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                    >
-                      <RotateCcw size={12} />
-                      Coba Resep Lain
-                    </button>
+                  <div>
+                    <div className="flex justify-start ml-10 mt-2 gap-2">
+                      <button
+                        onClick={onRegenerate}
+                        disabled={!hasLastIngredients}
+                        className="inline-flex items-center gap-1.5 text-xs text-foreground/40 hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                      >
+                        <RotateCcw size={12} />
+                        Coba Resep Lain
+                      </button>
+                    </div>
+                    {onFollowUp && (
+                      <FollowUpChips onSelect={onFollowUp} disabled={false} />
+                    )}
                   </div>
                 )}
                 {i < messages.length - 1 && messages[i + 1]?.role === 'user' && (

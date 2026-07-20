@@ -89,18 +89,19 @@ export default function InputArea({
             onKeyDown={handleKeyDown}
             placeholder="Tulis bahan yang ada..."
             rows={1}
-            className="w-full resize-none overflow-y-hidden rounded-xl border-2 border-black bg-white text-foreground px-4 py-3 pr-12 text-sm placeholder:text-foreground/40 focus:outline-none focus:ring-2 focus:ring-ring shadow-[inset_2px_2px_0_0_#000] transition-shadow"
+            className="w-full resize-none overflow-y-hidden rounded-xl border-2 border-black bg-white text-foreground px-4 py-3 text-sm placeholder:text-foreground/40 focus:outline-none focus:ring-2 focus:ring-ring shadow-[inset_2px_2px_0_0_#000] transition-shadow"
           />
-          <button
-            type="button"
-            onClick={() => fileRef.current?.click()}
-            disabled={loading}
-            className="absolute right-2 bottom-5 text-foreground/40 hover:text-primary disabled:opacity-30 transition-colors"
-            aria-label="Upload foto bahan"
-          >
-            <ImagePlus size={20} />
-          </button>
         </div>
+
+        <button
+          type="button"
+          onClick={() => fileRef.current?.click()}
+          disabled={loading}
+          className="text-foreground/40 hover:text-primary rounded-xl p-3 border-2 border-black shadow-[2px_2px_0_0_#000] hover:shadow-[3px_3px_0_0_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
+          aria-label="Upload foto bahan"
+        >
+          <ImagePlus size={20} />
+        </button>
 
         <button
           type="submit"

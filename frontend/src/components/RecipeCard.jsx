@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import { Heart, Copy, ShoppingCart } from 'lucide-react';
 
 function SectionDivider() {
   return <hr className="border-border/40 mx-5" />;
 }
 
-export default function RecipeCard({ content }) {
+export default function RecipeCard({ content, recipeId, isFaved, onSave, onShare, onGroceryList }) {
   return (
     <div className="bg-white rounded-xl border-2 border-black shadow-[3px_3px_0_0_#000] overflow-hidden">
       <ReactMarkdown
@@ -95,6 +96,43 @@ export default function RecipeCard({ content }) {
       >
         {content}
       </ReactMarkdown>
+      <div className="flex items-center gap-1 px-5 pb-4 pt-2 justify-end border-t-2 border-black/10 mt-2">
+        {onGroceryList && (
+          <button
+            onClick={() => onGroceryList()}
+            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-foreground/40 hover:text-primary transition-colors text-xs font-bold"
+            aria-label="Daftar belanja"
+            title="Buat daftar belanja"
+          >
+            <ShoppingCart size={14} />
+            Belanja
+          </button>
+        )}
+        {onShare && (
+          <button
+            onClick={() => onShare(content)}
+            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-foreground/40 hover:text-primary transition-colors text-xs font-bold"
+            aria-label="Salin resep"
+            title="Salin resep"
+          >
+            <Copy size={14} />
+            Salin
+          </button>
+        )}
+        {onSave && (
+          <button
+            onClick={() => onSave(recipeId)}
+            className={`flex items-center gap-1 px-3 py-1.5 rounded-lg transition-colors text-xs font-bold ${
+              isFaved ? 'text-red-500' : 'text-foreground/40 hover:text-red-500'
+            }`}
+            aria-label={isFaved ? 'Hapus dari favorit' : 'Simpan ke favorit'}
+            title={isFaved ? 'Hapus dari favorit' : 'Simpan ke favorit'}
+          >
+            <Heart size={14} fill={isFaved ? 'currentColor' : 'none'} />
+            {isFaved ? 'Tersimpan' : 'Simpan'}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

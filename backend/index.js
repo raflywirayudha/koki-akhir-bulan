@@ -75,7 +75,7 @@ app.post("/generate-from-document", upload.single("file"), async (req, res) => {
 
 app.post("/api/generate-recipe", upload.single("image"), async (req, res) => {
   try {
-    const { ingredients, preferences, history } = req.body;
+    const { ingredients, preferences, history, context } = req.body;
 
     let historyMessages = [];
     try {
@@ -95,6 +95,9 @@ app.post("/api/generate-recipe", upload.single("image"), async (req, res) => {
     }
     if (preferences) {
       prompt += ` Preferensi: ${preferences}.`;
+    }
+    if (context) {
+      prompt += ` Konteks dari sesi sebelumnya: user telah membuat resep-resep berikut:\n${context}\nGunakan konteks ini untuk memberikan saran yang relevan.`;
     }
 
     const contents = [

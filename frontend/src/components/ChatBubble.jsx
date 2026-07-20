@@ -15,11 +15,18 @@ function UserBubble({ content }) {
   );
 }
 
-function BotBubble({ content }) {
+function BotBubble({ content, recipeId, isFaved, onSave, onShare, onGroceryList }) {
   if (isRecipe(content)) {
     return (
       <div className="max-w-full">
-        <RecipeCard content={content} />
+        <RecipeCard
+          content={content}
+          recipeId={recipeId}
+          isFaved={isFaved}
+          onSave={onSave}
+          onShare={onShare}
+          onGroceryList={onGroceryList}
+        />
       </div>
     );
   }
@@ -35,9 +42,18 @@ function BotBubble({ content }) {
   );
 }
 
-export default function ChatBubble({ message }) {
+export default function ChatBubble({ message, recipeId, isFaved, onSave, onShare, onGroceryList }) {
   if (message.role === 'user') {
     return <UserBubble content={message.content} />;
   }
-  return <BotBubble content={message.content} />;
+  return (
+    <BotBubble
+      content={message.content}
+      recipeId={recipeId}
+      isFaved={isFaved}
+      onSave={onSave}
+      onShare={onShare}
+      onGroceryList={onGroceryList}
+    />
+  );
 }

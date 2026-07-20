@@ -26,16 +26,13 @@ export default function Navbar({ sidebarOpen, onToggleSidebar }) {
     <nav className="sticky top-0 z-50 bg-white border-b-2 border-black">
       <div className="w-full px-4 h-16 flex items-center gap-2">
         {isChat && (
-          <>
-            <button
-              onClick={onToggleSidebar}
-              className="p-1.5 rounded-lg text-foreground/30 hover:text-foreground transition-colors shrink-0"
-              aria-label={sidebarOpen ? 'Tutup sidebar' : 'Buka sidebar'}
-            >
-              {sidebarOpen ? <PanelLeftClose size={22} /> : <PanelLeftOpen size={22} />}
-            </button>
-            <div className={`${sidebarOpen ? 'w-52' : 'w-0'} transition-all duration-200 shrink-0`} />
-          </>
+          <button
+            onClick={onToggleSidebar}
+            className="md:hidden p-1.5 rounded-lg text-foreground/30 hover:text-foreground transition-colors shrink-0"
+            aria-label={sidebarOpen ? 'Tutup sidebar' : 'Buka sidebar'}
+          >
+            {sidebarOpen ? <PanelLeftClose size={22} /> : <PanelLeftOpen size={22} />}
+          </button>
         )}
 
         <Link

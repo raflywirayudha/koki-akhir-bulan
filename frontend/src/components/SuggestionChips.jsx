@@ -1,10 +1,20 @@
 import { useRef } from 'react';
-import { ChefHat } from 'lucide-react';
 
 const suggestions = [
-  'Telur', 'Nasi', 'Mie Instan', 'Kentang',
-  'Tahu', 'Tempe', 'Ayam', 'Sayur',
-  'Bawang', 'Tomat', 'Cabai', 'Kornet',
+  { label: 'Telur', emoji: '🥚' },
+  { label: 'Nasi', emoji: '🍚' },
+  { label: 'Mie Instan', emoji: '🍜' },
+  { label: 'Kentang', emoji: '🥔' },
+  { label: 'Tahu', emoji: '🫘' },
+  { label: 'Tempe', emoji: '🧈' },
+  { label: 'Ayam', emoji: '🍗' },
+  { label: 'Sayur', emoji: '🥬' },
+  { label: 'Bawang', emoji: '🧅' },
+  { label: 'Tomat', emoji: '🍅' },
+  { label: 'Cabai', emoji: '🌶️' },
+  { label: 'Kornet', emoji: '🥫' },
+  { label: 'Saya mau masak...', emoji: '🔍' },
+  { label: 'Saya bingung 🎲', emoji: '🎲' },
 ];
 
 export default function SuggestionChips({ selectedChips, onToggle, disabled }) {
@@ -17,13 +27,13 @@ export default function SuggestionChips({ selectedChips, onToggle, disabled }) {
         className="flex gap-2 overflow-x-auto scroll-smooth pb-2 px-1 -mx-1 [&::-webkit-scrollbar]:hidden"
       >
         {suggestions.map((chip) => {
-          const selected = selectedChips.has(chip);
+          const selected = selectedChips.has(chip.label);
           return (
             <button
-              key={chip}
+              key={chip.label}
               type="button"
               disabled={disabled}
-              onClick={() => onToggle(chip)}
+              onClick={() => onToggle(chip.label)}
               className={`shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-bold border-2 transition-all duration-200
                 disabled:opacity-50 disabled:cursor-not-allowed
                 ${
@@ -32,8 +42,8 @@ export default function SuggestionChips({ selectedChips, onToggle, disabled }) {
                     : 'bg-primary-light/60 text-primary border-transparent hover:bg-primary hover:text-white hover:border-black'
                 }`}
             >
-              <ChefHat size={14} />
-              {chip}
+              <span className="text-base">{chip.emoji}</span>
+              {chip.label}
             </button>
           );
         })}

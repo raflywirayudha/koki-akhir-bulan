@@ -31,6 +31,7 @@ export default function App() {
             <Chat
               sidebarOpen={sidebarOpen}
               onCloseSidebar={() => setSidebarOpen(false)}
+              onToggleSidebar={() => setSidebarOpen((v) => !v)}
             />
           }
         />
