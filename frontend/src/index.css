@@ -56,6 +56,59 @@
   --color-ring: #E11D48;
 }
 
+.theme-edgy {
+  --color-primary: #695f00;
+  --color-primary-dark: #4f4800;
+  --color-primary-light: #ffea00;
+  --color-secondary: #a33800;
+  --color-secondary-light: #ffdbce;
+  --color-accent: #006c50;
+  --color-accent-light: #79ffcf;
+  --color-background: #f9f9f9;
+  --color-ring: #695f00;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #736900;
+  --color-on-secondary: #ffffff;
+  --color-on-accent: #ffffff;
+  --color-surface-variant: #e2e2e2;
+}
+
+.theme-playful {
+  --color-primary: #36EC95;
+  --color-primary-dark: #2DBF7A;
+  --color-primary-light: #FAFF00;
+  --color-secondary: #FF3F84;
+  --color-secondary-light: #FFCCDD;
+  --color-accent: #FAFF00;
+  --color-accent-light: #FFF9B0;
+  --color-background: #FFFCDD;
+  --color-foreground: #0A1610;
+  --color-muted: #F5F3E5;
+  --color-ring: #36EC95;
+}
+
+.theme-playful .hero-bg {
+  background-color: #36EC95;
+}
+
+.theme-playful .hero-badge {
+  background-color: #FF3F84;
+  color: #0A1610;
+}
+
+.theme-playful .hero-cta {
+  background-color: #FAFF00;
+  color: #0A1610;
+}
+
+@utility shadow-neo {
+  box-shadow: 6px 6px 0px 0px var(--color-foreground, #1b1b1b);
+}
+
+@utility shadow-neo-sm {
+  box-shadow: 4px 4px 0px 0px var(--color-foreground, #1b1b1b);
+}
+
 @layer utilities {
   .bg-grid-dot {
     background-image: radial-gradient(

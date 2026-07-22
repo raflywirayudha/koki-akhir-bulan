@@ -16,21 +16,21 @@ function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onD
       <div className="px-3 pt-3 flex items-center gap-2">
         <button
           onClick={onClose}
-          className="hidden md:block p-2 rounded-xl border-2 border-black text-foreground/40 hover:text-foreground hover:bg-muted transition-all shrink-0"
+          className="hidden md:block p-2  border-2 border-black text-foreground/40 hover:text-foreground hover:bg-muted transition-all shrink-0"
           aria-label="Tutup sidebar"
         >
           <PanelLeftClose size={18} />
         </button>
         <button
           onClick={onNewChat}
-          className="flex-1 flex items-center gap-2 px-3.5 py-2.5 rounded-xl border-2 border-black bg-primary text-white font-bold text-sm shadow-[2px_2px_0_0_#000] hover:shadow-[3px_3px_0_0_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-200"
+          className="flex-1 flex items-center gap-2 px-3.5 py-2.5  border-2 border-black bg-primary text-white font-bold text-sm shadow-[2px_2px_0_0_#000] hover:shadow-[3px_3px_0_0_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-200"
         >
           <Plus size={16} />
           Percakapan baru
         </button>
         <button
           onClick={onClose}
-          className="md:hidden p-2 rounded-xl border-2 border-black text-foreground/40 hover:text-foreground hover:bg-muted transition-all shrink-0"
+          className="md:hidden p-2  border-2 border-black text-foreground/40 hover:text-foreground hover:bg-muted transition-all shrink-0"
           aria-label="Tutup sidebar"
         >
           <X size={18} />
@@ -45,7 +45,7 @@ function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onD
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Cari percakapan..."
-            className="w-full pl-8 pr-3 py-2 rounded-xl border-2 border-black/30 text-xs text-foreground placeholder:text-foreground/30 focus:outline-none focus:border-primary/50 bg-white"
+            className="w-full pl-8 pr-3 py-2  border-2 border-black/30 text-xs text-foreground placeholder:text-foreground/30 focus:outline-none focus:border-primary/50 bg-white"
           />
         </div>
       </div>
@@ -54,7 +54,7 @@ function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onD
         <div className="px-3 pt-2">
           <button
             onClick={() => setShowFavorites(!showFavorites)}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-foreground/50 hover:text-primary hover:bg-primary-light/10 transition-all"
+            className="w-full flex items-center gap-2 px-3 py-2  text-xs font-bold text-foreground/50 hover:text-primary hover:bg-primary-light/10 transition-all"
           >
             <Heart size={14} className={showFavorites ? 'text-red-500' : ''} />
             Resep Tersimpan ({favorites.length})
@@ -65,7 +65,7 @@ function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onD
                 <button
                   key={fav.id}
                   onClick={() => onSelectFavorite?.(fav)}
-                  className="w-full flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs text-foreground/60 hover:text-foreground hover:bg-muted transition-all text-left"
+                  className="w-full flex items-center gap-2 px-3 py-1.5  text-xs text-foreground/60 hover:text-foreground hover:bg-muted transition-all text-left"
                 >
                   <MessageCircle size={12} className="shrink-0" />
                   <span className="truncate">{fav.title || 'Resep'}</span>
@@ -86,7 +86,7 @@ function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onD
           return (
             <div
               key={s.id}
-              className={`group relative flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl cursor-pointer text-sm transition-all duration-200 border-2 ${
+              className={`group relative flex items-center gap-2.5 px-3.5 py-2.5  cursor-pointer text-sm transition-all duration-200 border-2 ${
                 active
                   ? 'bg-primary/10 text-primary border-primary/30 font-bold'
                   : 'text-foreground/60 hover:text-foreground border-transparent hover:border-border/60'
@@ -104,7 +104,7 @@ function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onD
                   e.stopPropagation();
                   setDeleteTarget(s.id);
                 }}
-                className="shrink-0 p-1 rounded-md text-foreground/20 hover:text-destructive hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-all"
+                className="shrink-0 p-1  text-foreground/20 hover:text-destructive hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-all"
                 aria-label="Hapus sesi"
               >
                 <Trash2 size={14} />
@@ -118,7 +118,7 @@ function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onD
         <div className="px-3 pb-3 pt-3">
           <button
             onClick={() => setShowDeleteAll(true)}
-            className="w-full flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-foreground/40 hover:text-destructive hover:bg-destructive/10 border-2 border-transparent hover:border-destructive/30 transition-all"
+            className="w-full flex items-center justify-center gap-1.5 px-3.5 py-2  text-xs font-bold text-foreground/40 hover:text-destructive hover:bg-destructive/10 border-2 border-transparent hover:border-destructive/30 transition-all"
           >
             <Trash2 size={12} />
             Hapus Semua
@@ -132,7 +132,7 @@ function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onD
           <select
             value={preferences || ''}
             onChange={(e) => onPreferencesChange?.(e.target.value)}
-            className="w-full px-3 py-2 rounded-xl border-2 border-black/30 text-xs text-foreground bg-white focus:outline-none focus:border-primary/50"
+            className="w-full px-3 py-2  border-2 border-black/30 text-xs text-foreground bg-white focus:outline-none focus:border-primary/50"
           >
             <option value="">Tidak ada preferensi</option>
             <option value="Vegetarian">🥦 Vegetarian</option>
@@ -148,7 +148,7 @@ function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onD
       {deleteTarget && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
           <div className="fixed inset-0 bg-black/30" onClick={() => setDeleteTarget(null)} />
-          <div className="relative bg-white rounded-xl border-2 border-black shadow-[4px_4px_0_0_#000] p-6 max-w-sm w-full">
+          <div className="relative bg-white  border-2 border-black shadow-[4px_4px_0_0_#000] p-6 max-w-sm w-full">
             <h3 className="font-heading text-lg text-foreground">Hapus Sesi?</h3>
             <p className="text-sm text-foreground/60 mt-2 leading-relaxed">
               Semua pesan dalam sesi ini akan dihapus.
@@ -156,7 +156,7 @@ function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onD
             <div className="flex gap-2 mt-5">
               <button
                 onClick={() => setDeleteTarget(null)}
-                className="flex-1 py-2.5 rounded-xl border-2 border-black text-sm font-bold text-foreground bg-white hover:bg-muted transition-colors"
+                className="flex-1 py-2.5  border-2 border-black text-sm font-bold text-foreground bg-white hover:bg-muted transition-colors"
               >
                 Batal
               </button>
@@ -165,7 +165,7 @@ function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onD
                   onDelete(deleteTarget);
                   setDeleteTarget(null);
                 }}
-                className="flex-1 py-2.5 rounded-xl border-2 border-black text-sm font-bold text-white bg-destructive hover:bg-red-700 shadow-[2px_2px_0_0_#000] transition-all"
+                className="flex-1 py-2.5  border-2 border-black text-sm font-bold text-white bg-destructive hover:bg-red-700 shadow-[2px_2px_0_0_#000] transition-all"
               >
                 Ya
               </button>
@@ -177,7 +177,7 @@ function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onD
       {showDeleteAll && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
           <div className="fixed inset-0 bg-black/30" onClick={() => setShowDeleteAll(false)} />
-          <div className="relative bg-white rounded-xl border-2 border-black shadow-[4px_4px_0_0_#000] p-6 max-w-sm w-full">
+          <div className="relative bg-white  border-2 border-black shadow-[4px_4px_0_0_#000] p-6 max-w-sm w-full">
             <h3 className="font-heading text-lg text-foreground">Hapus Semua Sesi?</h3>
             <p className="text-sm text-foreground/60 mt-2 leading-relaxed">
               Semua riwayat percakapan akan dihapus. Sesi baru akan dibuat otomatis.
@@ -185,7 +185,7 @@ function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onD
             <div className="flex gap-2 mt-5">
               <button
                 onClick={() => setShowDeleteAll(false)}
-                className="flex-1 py-2.5 rounded-xl border-2 border-black text-sm font-bold text-foreground bg-white hover:bg-muted transition-colors"
+                className="flex-1 py-2.5  border-2 border-black text-sm font-bold text-foreground bg-white hover:bg-muted transition-colors"
               >
                 Batal
               </button>
@@ -194,7 +194,7 @@ function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onD
                   onDeleteAll();
                   setShowDeleteAll(false);
                 }}
-                className="flex-1 py-2.5 rounded-xl border-2 border-black text-sm font-bold text-white bg-destructive hover:bg-red-700 shadow-[2px_2px_0_0_#000] transition-all"
+                className="flex-1 py-2.5  border-2 border-black text-sm font-bold text-white bg-destructive hover:bg-red-700 shadow-[2px_2px_0_0_#000] transition-all"
               >
                 Ya
               </button>
@@ -242,14 +242,14 @@ export default function Sidebar(props) {
           <div className="w-12 min-w-12 h-full flex flex-col items-center gap-2 pt-3">
             <button
               onClick={onToggle}
-              className="p-2 rounded-xl border-2 border-black text-foreground/40 hover:text-foreground hover:bg-muted transition-all"
+              className="p-2  border-2 border-black text-foreground/40 hover:text-foreground hover:bg-muted transition-all"
               aria-label="Buka sidebar"
             >
               <PanelLeftOpen size={16} />
             </button>
             <button
               onClick={props.onNewChat}
-              className="p-2 rounded-xl border-2 border-black bg-primary text-white shadow-[2px_2px_0_0_#000] hover:shadow-[3px_3px_0_0_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all"
+              className="p-2  border-2 border-black bg-primary text-white shadow-[2px_2px_0_0_#000] hover:shadow-[3px_3px_0_0_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all"
               aria-label="New Chat"
             >
               <Plus size={16} />

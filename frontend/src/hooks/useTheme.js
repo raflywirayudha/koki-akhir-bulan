@@ -4,6 +4,8 @@ const THEME_CLASS = {
   warm: 'theme-warm',
   garden: 'theme-garden',
   retro: 'theme-retro',
+  edgy: 'theme-edgy',
+  playful: 'theme-playful',
 };
 
 export default function useTheme() {
@@ -16,7 +18,7 @@ export default function useTheme() {
 
   useEffect(() => {
     const root = document.documentElement;
-    root.classList.remove('theme-warm', 'theme-garden', 'theme-retro');
+    root.classList.remove('theme-warm', 'theme-garden', 'theme-retro', 'theme-edgy', 'theme-playful');
     const cls = THEME_CLASS[theme];
     if (cls) root.classList.add(cls);
     localStorage.setItem('theme-style', theme);
