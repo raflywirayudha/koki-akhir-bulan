@@ -56,7 +56,7 @@ export default function InputArea({
   return (
     <form
       onSubmit={handleSubmit}
-      className="border-t-2 border-black bg-white rounded-b-xl"
+      className="border-t-2 border-black bg-white rounded-b-none"
     >
       {preview && (
         <div className="px-4 pt-4">

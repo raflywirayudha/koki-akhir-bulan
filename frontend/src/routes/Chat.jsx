@@ -17,8 +17,6 @@ export default function Chat({ sidebarOpen, onCloseSidebar, onToggleSidebar }) {
   const [loading, setLoading] = useState(false);
   const [inputText, setInputText] = useState('');
   const [selectedChips, setSelectedChips] = useState(new Set());
-  const [preferences, setPreferences] = useState('');
-
   const messages = activeSession?.messages || [];
   const lastIngredients = activeSession?.lastIngredients || null;
 
@@ -54,8 +52,6 @@ export default function Chat({ sidebarOpen, onCloseSidebar, onToggleSidebar }) {
       const formData = new FormData();
       formData.append('ingredients', userContent);
       if (imageFile) formData.append('image', imageFile);
-      if (preferences) formData.append('preferences', preferences);
-
       const history = messagesRef.current.slice(-20).map((msg) => ({
         role: msg.role === 'bot' ? 'model' : 'user',
         text: msg.content,
@@ -101,7 +97,7 @@ export default function Chat({ sidebarOpen, onCloseSidebar, onToggleSidebar }) {
     } finally {
       setLoading(false);
     }
-  }, [inputText, updateSession, sessions, preferences]);
+  }, [inputText, updateSession, sessions]);
 
   const handleSubmit = useCallback(
     ({ ingredients, imageFile }) => {
@@ -134,63 +130,6 @@ export default function Chat({ sidebarOpen, onCloseSidebar, onToggleSidebar }) {
       return next;
     });
   }, [handleSend]);
-
-  const handleRegenerate = useCallback(() => {
-    if (!lastIngredients?.text) return;
-    const { text } = lastIngredients;
-    const currentId = activeIdRef.current;
-    if (!currentId) return;
-
-    const imageFile = imageFilesRef.current[currentId] || null;
-
-    const userMsg = { role: 'user', content: text + ' 🔄 (coba lagi)' };
-    const updatedMessages = [...messagesRef.current, userMsg];
-    updateSession(currentId, { messages: updatedMessages });
-    setLoading(true);
-
-    const formData = new FormData();
-    formData.append('ingredients', text);
-    if (imageFile) formData.append('image', imageFile);
-    if (preferences) formData.append('preferences', preferences);
-
-    const history = messagesRef.current.slice(-20).map((msg) => ({
-      role: msg.role === 'bot' ? 'model' : 'user',
-      text: msg.content,
-    }));
-    formData.append('history', JSON.stringify(history));
-
-    const context = sessions
-      .filter((s) => s.id !== currentId && s.messages.length > 0 && s.title !== 'Resep Baru')
-      .slice(0, 3)
-      .map((s) => `- ${s.title}`)
-      .join('\n');
-    if (context) {
-      formData.append('context', context);
-    }
-
-    setInputText('');
-    setSelectedChips(new Set());
-
-    fetch('/api/generate-recipe', { method: 'POST', body: formData })
-      .then(async (res) => {
-        if (!res.ok) {
-          const data = await res.json().catch(() => ({}));
-          throw new Error(data.error || 'Gagal mendapatkan resep');
-        }
-        return res.json();
-      })
-      .then((data) => {
-        updateSession(currentId, {
-          messages: [...updatedMessages, { role: 'bot', content: data.recipe }],
-        });
-      })
-      .catch((e) => {
-        updateSession(currentId, {
-          messages: [...updatedMessages, { role: 'bot', content: e.message }],
-        });
-      })
-      .finally(() => setLoading(false));
-  }, [lastIngredients, updateSession, sessions, preferences]);
 
   const handleFollowUp = useCallback((query) => {
     handleSend({ ingredients: query, imageFile: null });
@@ -250,11 +189,9 @@ export default function Chat({ sidebarOpen, onCloseSidebar, onToggleSidebar }) {
           onClose={onCloseSidebar}
           onToggle={onToggleSidebar}
           favorites={favorites}
-          preferences={preferences}
-          onPreferencesChange={setPreferences}
         />
 
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden rounded-xl bg-white border-2 border-black shadow-[4px_4px_0_0_#000] m-4">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden rounded-none bg-white border-2 border-black shadow-[4px_4px_0_0_#000] m-4">
         <div className="flex items-center gap-2 px-4 pt-4 pb-2 border-b-2 border-black">
           <div className="flex-1">
             <SuggestionChips
@@ -267,8 +204,6 @@ export default function Chat({ sidebarOpen, onCloseSidebar, onToggleSidebar }) {
         <ChatLayout
           messages={messages}
           loading={loading}
-          onRegenerate={handleRegenerate}
-          hasLastIngredients={!!lastIngredients?.text}
           onFollowUp={handleFollowUp}
           recipeIdMap={recipeIdMap}
           isFaved={isFavorite}

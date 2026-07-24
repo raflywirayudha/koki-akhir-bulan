@@ -85,7 +85,7 @@ export default function RecipeCard({ content, recipeId, isFaved, onSave, onShare
             }
             return (
               <li className="flex items-start gap-2.5 text-sm" {...props}>
-                <span className="shrink-0 mt-1.5 w-2 h-2 rounded-full bg-primary/60" />
+                <span className="shrink-0 mt-2 w-2 h-2 rounded-full bg-primary/60" />
                 <span className="text-foreground/80 pt-0.5 leading-relaxed">
                   {children}
                 </span>
@@ -96,8 +96,8 @@ export default function RecipeCard({ content, recipeId, isFaved, onSave, onShare
       >
         {content}
       </ReactMarkdown>
-      <div className="flex items-center gap-1 px-5 pb-4 pt-2 justify-end border-t-2 border-black/10 mt-2">
-        {onGroceryList && (
+      <div className="flex items-center gap-1 px-5 py-2 justify-end border-t-2 border-black/10">
+        {/* {onGroceryList && (
           <button
             onClick={() => onGroceryList()}
             className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-foreground/40 hover:text-primary transition-colors text-xs font-bold"
@@ -107,7 +107,7 @@ export default function RecipeCard({ content, recipeId, isFaved, onSave, onShare
             <ShoppingCart size={14} />
             Belanja
           </button>
-        )}
+        )} */}
         {onShare && (
           <button
             onClick={() => onShare(content)}

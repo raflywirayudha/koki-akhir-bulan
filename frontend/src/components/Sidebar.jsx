@@ -1,55 +1,40 @@
 import { useState } from 'react';
-import { Plus, Trash2, X, PanelLeftClose, PanelLeftOpen, Search, Heart, MessageCircle } from 'lucide-react';
+import { Plus, Trash2, X, PanelLeftClose, PanelLeftOpen, Heart, MessageCircle } from 'lucide-react';
 
-function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onDeleteAll, onClose, onToggle, favorites, onSelectFavorite, preferences, onPreferencesChange }) {
+function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onDeleteAll, onClose, onToggle, favorites, onSelectFavorite }) {
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [showDeleteAll, setShowDeleteAll] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
   const [showFavorites, setShowFavorites] = useState(false);
   const nonEmpty = sessions.filter((s) => s.messages.length > 0);
-  const filtered = searchQuery
-    ? nonEmpty.filter((s) => s.title.toLowerCase().includes(searchQuery.toLowerCase()))
-    : nonEmpty;
 
   return (
     <>
-      <div className="px-3 pt-3 flex items-center gap-2">
-        <button
-          onClick={onClose}
-          className="hidden md:block p-2  border-2 border-black text-foreground/40 hover:text-foreground hover:bg-muted transition-all shrink-0"
-          aria-label="Tutup sidebar"
-        >
-          <PanelLeftClose size={18} />
-        </button>
+      <div className="px-1.5 pt-4 flex items-center gap-2">
+        
         <button
           onClick={onNewChat}
-          className="flex-1 flex items-center gap-2 px-3.5 py-2.5  border-2 border-black bg-primary text-white font-bold text-sm shadow-[2px_2px_0_0_#000] hover:shadow-[3px_3px_0_0_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-200"
+          className="flex-1 flex items-center gap-2 p-2  border-2 border-black bg-primary text-white font-bold text-sm shadow-[2px_2px_0_0_#000] hover:shadow-[3px_3px_0_0_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-200"
         >
-          <Plus size={16} />
+          <Plus size={24} />
           Percakapan baru
         </button>
         <button
           onClick={onClose}
-          className="md:hidden p-2  border-2 border-black text-foreground/40 hover:text-foreground hover:bg-muted transition-all shrink-0"
+          className="hidden md:block p-2 border-2 border-black  hover:bg-muted shadow-[2px_2px_0_0_#000] hover:shadow-[3px_3px_0_0_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-200"
           aria-label="Tutup sidebar"
         >
-          <X size={18} />
+          <PanelLeftClose size={24} />
+        </button>
+        <button
+          onClick={onClose}
+          className="md:hidden p-2  border-2 border-black text-foreground/40 hover:text-foreground hover:bg-muted shadow-[2px_2px_0_0_#000] hover:shadow-[3px_3px_0_0_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all duration-200 shrink-0"
+          aria-label="Tutup sidebar"
+        >
+          <X size={24} />
         </button>
       </div>
 
-      <div className="px-3 pt-2">
-        <div className="relative">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground/30" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Cari percakapan..."
-            className="w-full pl-8 pr-3 py-2  border-2 border-black/30 text-xs text-foreground placeholder:text-foreground/30 focus:outline-none focus:border-primary/50 bg-white"
-          />
-        </div>
-      </div>
-
+      
       {favorites && favorites.length > 0 && (
         <div className="px-3 pt-2">
           <button
@@ -77,11 +62,11 @@ function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onD
       )}
 
       <div className="flex-1 overflow-y-auto px-3 py-3 space-y-1">
-        {filtered.length === 0 ? (
+        {nonEmpty.length === 0 ? (
           <p className="text-xs text-foreground/30 text-center py-4">
-            {searchQuery ? 'Tidak ada hasil' : 'Belum ada percakapan'}
+            Belum ada percakapan
           </p>
-        ) : filtered.map((s) => {
+        ) : nonEmpty.map((s) => {
           const active = s.id === activeId;
           return (
             <div
@@ -126,27 +111,8 @@ function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onD
         </div>
       )}
 
-      <div className="px-3 pb-3">
-        <div className="border-t-2 border-black/10 pt-3">
-          <p className="text-xs font-bold text-foreground/40 mb-1.5 px-1">Preferensi Diet</p>
-          <select
-            value={preferences || ''}
-            onChange={(e) => onPreferencesChange?.(e.target.value)}
-            className="w-full px-3 py-2  border-2 border-black/30 text-xs text-foreground bg-white focus:outline-none focus:border-primary/50"
-          >
-            <option value="">Tidak ada preferensi</option>
-            <option value="Vegetarian">🥦 Vegetarian</option>
-            <option value="Vegan">🌱 Vegan</option>
-            <option value="Bebas gluten">🌾 Bebas Gluten</option>
-            <option value="Bebas susu">🥛 Bebas Susu</option>
-            <option value="Low carb">🥩 Low Carb</option>
-            <option value="Hemat">💰 Super Hemat</option>
-          </select>
-        </div>
-      </div>
-
       {deleteTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+        <div className="fixed inset-0 z-[70] flex items-center justify-center px-4">
           <div className="fixed inset-0 bg-black/30" onClick={() => setDeleteTarget(null)} />
           <div className="relative bg-white  border-2 border-black shadow-[4px_4px_0_0_#000] p-6 max-w-sm w-full">
             <h3 className="font-heading text-lg text-foreground">Hapus Sesi?</h3>
@@ -175,7 +141,7 @@ function SidebarContent({ sessions, activeId, onSelect, onNewChat, onDelete, onD
       )}
 
       {showDeleteAll && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+        <div className="fixed inset-0 z-[70] flex items-center justify-center px-4">
           <div className="fixed inset-0 bg-black/30" onClick={() => setShowDeleteAll(false)} />
           <div className="relative bg-white  border-2 border-black shadow-[4px_4px_0_0_#000] p-6 max-w-sm w-full">
             <h3 className="font-heading text-lg text-foreground">Hapus Semua Sesi?</h3>
@@ -212,12 +178,12 @@ export default function Sidebar(props) {
   return (
     <>
       {open && (
-        <div className="fixed inset-0 z-30 bg-black/30 md:hidden" onClick={onClose} />
+        <div className="fixed inset-0 z-[55] bg-black/30 md:hidden" onClick={onClose} />
       )}
 
       <aside
         className={`
-          md:hidden fixed inset-y-0 left-0 z-40 w-64
+          md:hidden fixed inset-y-0 left-0 z-[60] w-64
           bg-white border-r-2 border-black flex flex-col
           transition-transform duration-200
           ${open ? 'translate-x-0' : '-translate-x-full'}
@@ -229,9 +195,9 @@ export default function Sidebar(props) {
       <div
         className={`
           hidden md:flex flex-col shrink-0 h-full
-          bg-white border-r-2 border-black
-          overflow-hidden transition-all duration-200
-          ${open ? 'w-72' : 'w-12'}
+          bg-white border-r-2 border-black 
+          overflow-hidden transition-all duration-200 items-center
+          ${open ? 'w-72' : 'w-14'}
         `}
       >
         {open ? (
@@ -239,20 +205,20 @@ export default function Sidebar(props) {
             <SidebarContent {...props} />
           </div>
         ) : (
-          <div className="w-12 min-w-12 h-full flex flex-col items-center gap-2 pt-3">
+          <div className="w-12 min-w-12 h-full flex flex-col items-center gap-2 p-4 mr-0.5">
             <button
               onClick={onToggle}
-              className="p-2  border-2 border-black text-foreground/40 hover:text-foreground hover:bg-muted transition-all"
+              className="p-2 border-2 border-black hover:bg-muted shadow-[2px_2px_0_0_#000] hover:shadow-[3px_3px_0_0_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none  transition-all"
               aria-label="Buka sidebar"
             >
-              <PanelLeftOpen size={16} />
+              <PanelLeftOpen size={24} />
             </button>
             <button
               onClick={props.onNewChat}
               className="p-2  border-2 border-black bg-primary text-white shadow-[2px_2px_0_0_#000] hover:shadow-[3px_3px_0_0_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all"
               aria-label="New Chat"
             >
-              <Plus size={16} />
+              <Plus size={24} />
             </button>
           </div>
         )}

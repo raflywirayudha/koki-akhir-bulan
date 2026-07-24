@@ -9,7 +9,7 @@ const suggestions = [
 
 export default function FollowUpChips({ onSelect, disabled }) {
   return (
-    <div className="flex flex-wrap gap-2 mt-2 ml-10">
+    <div className="flex flex-wrap gap-2 mt-2 justify-center">
       {suggestions.map((chip) => {
         const Icon = chip.icon;
         return (
